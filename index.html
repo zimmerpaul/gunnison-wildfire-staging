@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gunnison Wildfire Mitigation Workshop</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2d2d2d;
+      line-height: 1.6;
+      background: #faf8f5;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── Utility ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section-label {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 0.8rem;
+      color: #c05621;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(26, 26, 26, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #c05621;
+    }
+    nav .container {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    nav .logo {
+      font-weight: 800; font-size: 1.1rem; color: #fff;
+      display: flex; align-items: center; gap: 8px;
+    }
+    nav .logo .flame { color: #f6a623; font-size: 1.3rem; }
+    nav ul { list-style: none; display: flex; gap: 28px; }
+    nav ul li a {
+      color: #ccc; font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav ul li a:hover { color: #f6a623; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('assets/images/hero-wildfire.jpg') center/cover no-repeat;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0.55) 0%,
+        rgba(40,10,0,0.65) 50%,
+        rgba(0,0,0,0.85) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 120px 24px 80px;
+      max-width: 800px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #c05621;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    }
+    .hero h1 span { color: #f6a623; }
+    .hero p {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto; margin-right: auto;
+    }
+    .hero-details {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 32px;
+      margin-bottom: 40px;
+    }
+    .hero-detail {
+      display: flex; align-items: center; gap: 10px;
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+    }
+    .hero-detail .icon {
+      width: 40px; height: 40px;
+      background: rgba(246,166,35,0.2);
+      border: 1px solid rgba(246,166,35,0.4);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: #c05621;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 36px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #a04518; transform: translateY(-2px); }
+
+    /* ── Event Info Bar ── */
+    .info-bar {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 40px 0;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      text-align: center;
+    }
+    .info-item .icon-circle {
+      width: 56px; height: 56px;
+      background: rgba(246,166,35,0.15);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 1.5rem;
+    }
+    .info-item h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #f6a623;
+    }
+    .info-item p { font-size: 0.9rem; color: #bbb; }
+
+    /* ── About Section ── */
+    .about {
+      padding: 100px 0;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-image {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .about-image img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+    .about-text p {
+      color: #555;
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+    .about-text .hosts {
+      background: #fff5eb;
+      border-left: 4px solid #c05621;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 24px;
+    }
+    .about-text .hosts strong { color: #c05621; }
+
+    /* ── Topics Section ── */
+    .topics {
+      padding: 100px 0;
+      background: #fff;
+    }
+    .topics-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 24px;
+    }
+    .topic-card {
+      background: #faf8f5;
+      border-radius: 12px;
+      padding: 28px;
+      display: flex; gap: 16px;
+      align-items: flex-start;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #eee;
+    }
+    .topic-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+    .topic-card .topic-icon {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, #f6a623, #c05621);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+    }
+    .topic-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .topic-card p {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ── Image Break ── */
+    .image-break {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+    }
+    .image-break img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .image-break .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(192,86,33,0.7), rgba(26,26,26,0.6));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .image-break .overlay blockquote {
+      color: #fff;
+      font-size: 1.8rem;
+      font-weight: 800;
+      text-align: center;
+      max-width: 600px;
+      padding: 0 24px;
+      line-height: 1.3;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* ── Gallery Section ── */
+    .gallery {
+      padding: 100px 0;
+    }
+    .gallery-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 50px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+    .gallery-grid img:nth-child(-n+3) {
+      grid-column: span 2;
+    }
+    .gallery-grid img:nth-child(4) {
+      grid-column: 2 / span 2;
+    }
+    .gallery-grid img:nth-child(5) {
+      grid-column: 4 / span 2;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.3s;
+    }
+    .gallery-grid img:hover { transform: scale(1.03); }
+
+    /* ── CTA / Registration ── */
+    .cta {
+      padding: 100px 0;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d1a0e 100%);
+      text-align: center;
+    }
+    .cta .section-title { color: #fff; }
+    .cta p { color: #bbb; font-size: 1.1rem; max-width: 600px; margin: 0 auto 12px; }
+    .cta .highlight {
+      color: #f6a623;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 24px 0;
+    }
+    .cta .contact-info {
+      margin-top: 32px;
+      color: #999;
+      font-size: 0.95rem;
+    }
+    .cta .contact-info a {
+      color: #f6a623;
+      font-weight: 600;
+    }
+    .cta .contact-info a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      background: #111;
+      color: #777;
+      text-align: center;
+      padding: 32px 0;
+      font-size: 0.85rem;
+    }
+    footer a { color: #f6a623; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid img:nth-child(-n+3),
+      .gallery-grid img:nth-child(4),
+      .gallery-grid img:nth-child(5) { grid-column: span 1; }
+      nav ul { display: none; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .hero-details { flex-direction: column; align-items: center; gap: 16px; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid, .gallery-grid img:nth-child(-n+3),
+      .gallery-grid img:nth-child(4),
+      .gallery-grid img:nth-child(5) { grid-template-columns: 1fr; grid-column: span 1; }
+      .hero h1 { font-size: 1.8rem; }
+      .section-title { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="container">
+    <div class="logo">
+      <span class="flame">&#x1F525;</span> Gunnison Wildfire Workshop
+    </div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#topics">Topics</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#register">Attend</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Free Community Event</div>
+    <h1>Gunnison <span>Wildfire Mitigation</span> Workshop</h1>
+    <p>A half-day workshop focused on wildfire risk, mitigation strategies, and community preparedness.</p>
+    <div class="hero-details">
+      <div class="hero-detail">
+        <div class="icon">&#128197;</div>
+        <div>
+          <strong>Saturday, April 25</strong><br>
+          9:00 AM &ndash; 1:00 PM
+        </div>
+      </div>
+      <div class="hero-detail">
+        <div class="icon">&#128205;</div>
+        <div>
+          <strong>Fred Field Center</strong><br>
+          Gunnison, Colorado
+        </div>
+      </div>
+      <div class="hero-detail">
+        <div class="icon">&#128682;</div>
+        <div>
+          <strong>Doors Open</strong><br>
+          8:30 AM
+        </div>
+      </div>
+    </div>
+    <a href="#register" class="btn-primary">Learn More &darr;</a>
+  </div>
+</section>
+
+<!-- ── Info Bar ── -->
+<div class="info-bar">
+  <div class="container">
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="icon-circle">&#127793;</div>
+        <h3>Defensible Space</h3>
+        <p>Learn how to create fire-resistant zones around your property</p>
+      </div>
+      <div class="info-item">
+        <div class="icon-circle">&#128293;</div>
+        <h3>Prescribed Burns</h3>
+        <p>Understand field and pile burning practices for land management</p>
+      </div>
+      <div class="info-item">
+        <div class="icon-circle">&#127795;</div>
+        <h3>Fuels Management</h3>
+        <p>Chipping, slash disposal, and vegetation management techniques</p>
+      </div>
+      <div class="info-item">
+        <div class="icon-circle">&#128587;</div>
+        <h3>Evacuation Planning</h3>
+        <p>Community wildfire protection plans and evacuation readiness</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── About ── -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image">
+        <img
+          src="assets/images/colorado-mountains.jpg"
+          alt="Colorado Rocky Mountains landscape near Gunnison"
+        >
+      </div>
+      <div class="about-text">
+        <div class="section-label">About the Workshop</div>
+        <h2 class="section-title">Learn How to Help Protect Our Community</h2>
+        <p>
+          Join your neighbors and local experts for a free half-day workshop at the
+          Fred Field Center in Gunnison, Colorado. This event brings together
+          wildfire professionals, land managers, and community members to share
+          practical knowledge about reducing wildfire risk in our area.
+        </p>
+        <p>
+          Whether you're a homeowner looking to protect your property, a rancher
+          managing your land, or simply a community member who wants to be
+          prepared, this workshop has something for you.
+        </p>
+        <p>
+          No registration is required &mdash; just show up! Doors open at
+          8:30 AM, with presentations running from 9:00 AM to 1:00 PM.
+        </p>
+        <div class="hosts">
+          Hosted by the <strong>Gunnison Conservation District</strong> and the
+          <strong>Colorado State University Extension Office</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Topics ── -->
+<section class="topics" id="topics">
+  <div class="container">
+    <div class="topics-header">
+      <div class="section-label">Workshop Highlights</div>
+      <h2 class="section-title">What You'll Learn</h2>
+    </div>
+    <div class="topics-grid">
+      <div class="topic-card">
+        <div class="topic-icon">&#9888;&#65039;</div>
+        <div>
+          <h3>Why Mitigation Matters</h3>
+          <p>Understanding wildfire risk and the critical role of defensible space in protecting homes and communities.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#127806;</div>
+        <div>
+          <h3>Land Management &amp; Burning Practices</h3>
+          <p>Best practices for managing ranchlands through strategic burning and vegetation management.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#128300;</div>
+        <div>
+          <h3>Mitigation Benefits &amp; Wildfire Science</h3>
+          <p>The science behind wildfire behavior and how mitigation efforts make a measurable difference.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#127968;</div>
+        <div>
+          <h3>Defensible Space &amp; Fuels Management</h3>
+          <p>Hands-on guidance for creating and maintaining defensible space around your structures.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#129683;</div>
+        <div>
+          <h3>Chipping &amp; Slash Disposal</h3>
+          <p>Local resources and techniques for disposing of brush, slash, and other fire fuels effectively.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#9881;&#65039;</div>
+        <div>
+          <h3>Chainsaw Safety</h3>
+          <p>Essential safety practices for operating chainsaws during fuel reduction and fire mitigation work.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#128293;</div>
+        <div>
+          <h3>Prescribed Fires</h3>
+          <p>Field and pile burning techniques used by professionals to reduce wildfire fuel loads.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#127807;</div>
+        <div>
+          <h3>Firewise Landscaping</h3>
+          <p>Fire-resistant plant selection and landscaping strategies that reduce your home's wildfire vulnerability.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">&#128203;</div>
+        <div>
+          <h3>Evacuation &amp; Protection Plans</h3>
+          <p>Understanding the Community Wildfire Protection Plan (CWPP) and preparing your family's evacuation plan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Image Break ── -->
+<div class="image-break">
+  <img
+    src="assets/images/firefighters-wildfire.jpg"
+    alt="Firefighters confronting a wildfire"
+  >
+  <div class="overlay">
+    <blockquote>Learn how to help protect our community from wildfire.</blockquote>
+  </div>
+</div>
+
+<!-- ── Gallery ── -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gallery-header">
+      <div class="section-label">The Challenge We Face</div>
+      <h2 class="section-title">Wildfire in the West</h2>
+    </div>
+    <div class="gallery-grid">
+      <img
+        src="assets/images/gallery-forest-fire.jpg"
+        alt="Forest fire with flames and smoke"
+      >
+      <img
+        src="assets/images/gallery-firefighter-facing.jpg"
+        alt="Firefighter facing a wildfire"
+      >
+      <img
+        src="assets/images/gallery-firefighters-team.jpg"
+        alt="Firefighters extinguishing a forest fire"
+      >
+      <img
+        src="assets/images/gallery-firefighters-control.jpg"
+        alt="Firefighters controlling a wildfire"
+      >
+      <img
+        src="assets/images/gallery-mountain-landscape.jpg"
+        alt="Mountain forest landscape"
+      >
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA / Registration ── -->
+<section class="cta" id="register">
+  <div class="container">
+    <div class="section-label" style="color: #f6a623;">Join Us</div>
+    <h2 class="section-title">Registration Is Not Required</h2>
+    <p>
+      This is a free community event &mdash; just show up at the Fred Field Center
+      in Gunnison on Saturday, April 25. Doors open at 8:30 AM.
+    </p>
+    <div class="highlight">Saturday, April 25 &bull; 9:00 AM &ndash; 1:00 PM</div>
+    <p style="color: #999; font-size: 0.95rem;">
+      Fred Field Center &bull; Gunnison, Colorado
+    </p>
+    <div class="contact-info">
+      Questions? Contact <strong>Tonya Carr</strong> at
+      <a href="mailto:gunnisoncd2006@gmail.com">gunnisoncd2006@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <p>
+      Gunnison Wildfire Mitigation Workshop &bull;
+      Hosted by Gunnison Conservation District &amp; Colorado State University Extension Office
+    </p>
+    <p style="margin-top: 8px;">
+      Photos courtesy of <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
