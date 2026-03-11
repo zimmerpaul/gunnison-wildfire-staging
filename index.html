@@ -68,7 +68,7 @@
     }
     .hero-bg {
       position: absolute; inset: 0;
-      background: url('assets/images/forest-fire.jpg') center/cover no-repeat;
+      background: url('assets/images/wildfire-smoke-plume.jpg') center/cover no-repeat;
     }
     .hero-bg::after {
       content: '';
@@ -293,17 +293,8 @@
     }
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-    }
-    .gallery-grid img:nth-child(-n+3) {
-      grid-column: span 2;
-    }
-    .gallery-grid img:nth-child(4) {
-      grid-column: 2 / span 2;
-    }
-    .gallery-grid img:nth-child(5) {
-      grid-column: 4 / span 2;
     }
     .gallery-grid img {
       width: 100%;
@@ -355,17 +346,12 @@
       .hero h1 { font-size: 2.2rem; }
       .about-grid { grid-template-columns: 1fr; gap: 32px; }
       .gallery-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-grid img:nth-child(-n+3),
-      .gallery-grid img:nth-child(4),
-      .gallery-grid img:nth-child(5) { grid-column: span 1; }
       nav ul { display: none; }
       .topics-grid { grid-template-columns: 1fr; }
       .hero-details { flex-direction: column; align-items: center; gap: 16px; }
     }
     @media (max-width: 480px) {
-      .gallery-grid, .gallery-grid img:nth-child(-n+3),
-      .gallery-grid img:nth-child(4),
-      .gallery-grid img:nth-child(5) { grid-template-columns: 1fr; grid-column: span 1; }
+      .gallery-grid { grid-template-columns: 1fr; }
       .hero h1 { font-size: 1.8rem; }
       .section-title { font-size: 1.7rem; }
     }
@@ -456,8 +442,8 @@
     <div class="about-grid">
       <div class="about-image">
         <img
-          src="assets/images/gunnison-river.jpg"
-          alt="Gunnison River valley landscape in Colorado"
+          src="assets/images/colorado-landscape.jpg"
+          alt="Colorado Rocky Mountains landscape near Gunnison"
         >
       </div>
       <div class="about-text">
@@ -565,8 +551,8 @@
 <!-- ── Image Break ── -->
 <div class="image-break">
   <img
-    src="assets/images/wildland-fireline.jpg"
-    alt="Wildland firefighters on the fireline"
+    src="assets/images/firefighter-night-forest.jpg"
+    alt="Wildland firefighter working in smoky forest at night"
   >
   <div class="overlay">
     <blockquote>Learn how to help protect our community from wildfire.</blockquote>
@@ -582,24 +568,28 @@
     </div>
     <div class="gallery-grid">
       <img
+        src="assets/images/canyon-wildfire.jpg"
+        alt="Wildfire burning through a mountain canyon"
+      >
+      <img
         src="assets/images/colorado-rocky-mountains.jpg"
         alt="Colorado Rocky Mountains landscape"
       >
       <img
-        src="assets/images/prescribed-fire.jpg"
-        alt="Wildland firefighters conducting a prescribed burn"
+        src="assets/images/prescribed-burn-smoke.jpg"
+        alt="Prescribed burn with smoke plume in sagebrush"
+      >
+      <img
+        src="assets/images/slash-pile-burn.jpg"
+        alt="Slash pile burn in winter forest clearing"
+      >
+      <img
+        src="assets/images/gunnison-river.jpg"
+        alt="Gunnison River valley landscape"
       >
       <img
         src="assets/images/mountain-valley.jpg"
         alt="Mountain valley in the Colorado Rockies"
-      >
-      <img
-        src="assets/images/wildfire-scene.jpg"
-        alt="Wildfire burning through forest"
-      >
-      <img
-        src="assets/images/fire-training.jpg"
-        alt="Wildland fire training exercise"
       >
     </div>
   </div>
